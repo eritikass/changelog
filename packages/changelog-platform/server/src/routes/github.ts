@@ -33,7 +33,7 @@ class GithubRouter {
     public getRepos(req: Request, res: Response): void {
         Github.getRepos( this.token,
             response => res.status(200).json(response),
-            err => res.status(err.statusCode).json(err.error);
+            err => res.status(err.statusCode).json(err.error),
         );
     }
 
