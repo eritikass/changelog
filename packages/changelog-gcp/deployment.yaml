@@ -16,9 +16,9 @@ spec:
         run: keep-a-changelog
     spec:
       containers:
-      - image: nginx:alpine
+      - image: gcr.io/google-samples/hello-app:1.0
         name: keep-a-changelog
         ports:
-        - containerPort: 80
+        - containerPort: 8080
         resources: {}
 status: {}
