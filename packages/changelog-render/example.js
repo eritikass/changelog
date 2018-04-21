@@ -1,3 +1,7 @@
+// Clone repository if not already cloned into './tmp_repos';
+// generate changelog from tags and recent pull requests;
+// print changelog to console.
+
 const Render = require('./render.js');
 
 const examples = [['facebook', 'jest'], ['eventum', 'eventum']]

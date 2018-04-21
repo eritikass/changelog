@@ -5,12 +5,6 @@ const FS = require('fs');
 const Util = require('util');
 const writeFileAsync = Util.promisify(FS.writeFile);
 
-Octokit.authenticate({
-    type: 'basic',
-    username: process.env.GIT_USER,
-    password: process.env.GIT_PASS
-})
-
 async function get_tags_commits(repo) {
     repo.sg.cwd(repo.path);
     const tags_resolve = await repo.sg.tags();
@@ -30,7 +24,7 @@ async function get_tags_commits(repo) {
 }
 
 async function get_closed_reqs(repo, max_req_num) {
-    console.log("Getting pull requests:", repo.owner, repo.name, max_req_num);
+    console.log("Getting " + max_req_num + " newest pull requests:", repo.owner, repo.name);
 
     // {owner, repo, state, head: 'user:branch', base: 'branch', sort, direction, page, per_page}
     const args = {owner: repo.owner, repo: repo.name, state: 'closed', direction: 'desc'};
@@ -52,7 +46,7 @@ async function get_closed_reqs(repo, max_req_num) {
         next_page += 1;
         remaining_num -= downloaded_num;
     }
-    console.log("Got pull requests:", repo.owner, repo.name, reqs.length);
+    console.log("Got " + reqs.length + " pull requests:", repo.owner, repo.name);
     return reqs;
 }
 
@@ -87,7 +81,20 @@ async function get_tags_reqs(repo, tags_commits) {
     return tags_reqs;
 }
 
-function start_repo(owner, name) {
+function start_repo(owner, name, username, password) {
+    if (username) {
+        try {
+            Octokit.authenticate({
+                type: 'basic',
+                username: username,
+                password: password
+            });
+        } catch (e) {
+            console.log(e);
+            console.log("WARNING: Couldn't authenticate user:", username);
+        }
+    }
+
     const repo = {owner: owner, name: name, sg: SimpleGit('.')};
 
     // TODO: What if `repo.owner + '___' + repo.name` are equal for two repos? (name conflict)

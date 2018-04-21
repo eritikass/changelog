@@ -1,4 +1,16 @@
+// Clone repository if not already cloned into './tmp_repos';
+// generate changelog from tags and recent pull requests;
+// write changelog to file and add, commit and push.
+
 const Render = require('./render');
 
-const repo = Render.start('litvand', 'changelog-test');
-Render.push_changelog(repo).then(() => console.log('Done.'));
+// Cloning and changelog generation work without username or password.
+// Replace with your username and password so pushing works:
+const username = process.env.GIT_USER;
+const password = process.env.GIT_PASS;
+
+const repo_owner = 'litvand';          // Replace with the owner of your repo.
+const repo_name  = 'changelog-test';   // Replace with the name of your repo.
+
+const repo = Render.start(repo_owner, repo_name, username, password);
+Render.push_changelog(repo).then(() => console.log('Pushed changelog.'));
