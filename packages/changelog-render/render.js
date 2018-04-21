@@ -9,6 +9,12 @@ const Handlebars = require('handlebars');
 const Octokit = require('@octokit/rest')();
 const FS = require ('fs');
 
+Octokit.authenticate({
+    type: 'basic',
+    username: process.env.GIT_USER,
+    password: process.env.GIT_PASS
+})
+
 
 async function get_tags_commits(repo_path) {
     const sg = SimpleGit(repo_path);
@@ -18,36 +24,53 @@ async function get_tags_commits(repo_path) {
     const tags_commits = [];
     for (var i = tags.length; i >= 1; --i) { // From newest to oldest version
         
-        const from = tags[i - 1];
-        const to = i < tags.length ? tags[i] : undefined;
+        const from = i < tags.length ? tags[i] : 'HEAD';
+        const to = tags[i - 1];
+        console.log('to', i - 1, tags[i - 1]);
         const options = {'from': from, 'to': to}; // TODO: `from` inclusive, `to` exclusive?
         
         const log = await sg.log(options);
-        const commits = log.all;
-        commits.reverse(); // From newest to oldest commit
+        const commits = log.all; // From newest to oldest commit
         
         tags_commits.push({'tag': from, 'commits': commits});
     }
     return tags_commits;
 }
 
-async function get_closed_reqs(repo_owner, repo_name) {
+async function get_closed_reqs(repo_owner, repo_name, max_req_num) { // Default max is 90.
+    console.log("Getting pull requests:", repo_owner, repo_name, max_req_num);
+
     // {owner, repo, state, head: 'user:branch', base: 'branch', sort, direction, page, per_page}
-    const args = {owner: repo_owner, repo: repo_name, state: 'closed', page: 1, per_page: 99};
-    const download = await Octokit.pullRequests.getAll(args);
-    const reqs = download.data; // `reqs` sorted from oldest to newest.
+    const args = {owner: repo_owner, repo: repo_name, state: 'closed', direction: 'desc'};
+    
+    // Get older pull requests by looping through pages (one octokit call per page).
+    var next_page = 1;
+    var remaining_num = max_req_num || 90;
+    const reqs = [];
+    while (remaining_num > 0) {
+
+        args.page = next_page;                       // Octokit limits the number of requests
+        args.per_page = Math.min(remaining_num, 99); // that can be downloaded at once to 99.
+
+        const download = await Octokit.pullRequests.getAll(args); // TODO: Parallel downloads?
+        const downloaded_num = download.data.length;
+        if (downloaded_num == 0) break; // No pull requests left to download
+
+        for (var i = 0; i < downloaded_num; ++i) reqs.push(download.data[i]);
+        next_page += 1;
+        remaining_num -= downloaded_num;
+    }
+    console.log("Got pull requests:", repo_owner, repo_name, reqs.length);
     return reqs;
-    console.log('-------------------')
-    console.log(reqs);
-    console.log('-------------------')
 }
 
 async function get_tags_reqs(repo_owner, repo_name, repo_path, tags_commits_promise) {
     if (!tags_commits_promise) tags_commits_promise = get_tags_commits(repo_path);
     const tags_commits = await tags_commits_promise;
 
-    const all_reqs = await get_closed_reqs(repo_owner, repo_name);
+    const all_reqs = await get_closed_reqs(repo_owner, repo_name, 10);
     // const all_reqs = require('./example-pull-requests.json');
+    // FS.writeFile('example-pull-requests.json', JSON.stringify(all_reqs));
     
     const req_idx_from_hash = {};
     for (var i = 0; i < all_reqs.length; ++i) {
@@ -65,8 +88,8 @@ async function get_tags_reqs(repo_owner, repo_name, repo_path, tags_commits_prom
             const hash = tag_commits[j].hash;
             const idx = req_idx_from_hash[hash];
             if (idx === true) {
-                console.log("WARNING: Same pull request under multiple tags?");
-                console.log(hash, tag, j);
+                // console.log("WARNING: Same pull request under multiple tags?");
+                // console.log(hash, tag, j);
             } else if (!!idx || idx === 0) {
                 tag_reqs.push(all_reqs[idx]);
                 req_idx_from_hash[hash] = true; // Warn about multiple use (see above).
@@ -74,6 +97,7 @@ async function get_tags_reqs(repo_owner, repo_name, repo_path, tags_commits_prom
         }
         tags_reqs.push({'tag': tags_commits[i].tag, 'reqs': tag_reqs});
     }
+    console.log(tags_reqs);
     return tags_reqs;
 }
 
@@ -116,4 +140,4 @@ async function get_repo_changelog(repo_owner, repo_name) {
     return use_template(get_template(), tags_reqs);
 }
 
-module.exports = get_repo_changelog;
+module.exports = {get_repo_changelog: get_repo_changelog, get_tags_commits: get_tags_commits};
