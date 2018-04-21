@@ -1,1 +1,71 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@import './variables';
+@import './custom-theme';
+@import './mixins';
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import "~ngx-toastr/toastr";
+
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+// .light-theme {
+//   @include angular-material-theme($light-theme);
+// }
+
+.dark-theme {
+  @include angular-material-theme($dark-theme); // .mat-dialog-container {
+  //   background: $transparent-black-strongest;
+  //   color: $font-primary;
+  // }
+  .mat-drawer-backdrop.mat-drawer-shown {
+    background: $transparent-black;
+  }
+  .mat-progress-bar-buffer {
+    // background-color: #434343;
+    background-color: #c8c8c8;
+  }
+  .mat-list-item-content {
+    cursor: pointer;
+  }
+  .mat-list-item-content:hover {
+    background-color: $transparent-black-weaker;
+  }
+}
+
+html,
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  margin: 0;
+  font-family: 'Roboto', sans-serif; // background-color: $bg-primary;
+}
+
+::-webkit-scrollbar {
+  width: 0.5em;
+  height: 0.5em;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+::-webkit-scrollbar-thumb:vertical {
+  background-color: $green-primary;
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+  background-color: $transparent-white-stronger;
+}
+
+::-webkit-scrollbar-corner {
+  background-color: $transparent-black-weakest;
+}

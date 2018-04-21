@@ -1,4 +1,10 @@
 import { Component } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { MatDrawer } from '@angular/material';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/do';
+import { GithubService } from '@core/services/github.service';
+
 
 @Component({
   selector: 'app-root',
@@ -6,5 +12,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'app';
+  theme = 'dark-theme';
+
+  OnInit(){}
+
 }

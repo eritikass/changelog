@@ -1,0 +1,41 @@
+@import './variables';
+.wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+.chubby-wrapper {
+    width: 100%;
+    height: 100%;
+    padding: 1.5em;
+}
+
+.fat-wrapper {
+    width: 100%;
+    height: 100%;
+    padding: 3em;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    padding: 1em;
+    overflow: hidden;
+    background-color: $transparent-black-weakest;
+}
+
+.chubby-container {
+    width: 100%;
+    height: 100%;
+    padding: 1.5em;
+    overflow: hidden;
+    background-color: $transparent-black-weakest;
+}
+
+.fat-container {
+    width: 100%;
+    height: 100%;
+    padding: 3em;
+    overflow: hidden;
+    background-color: $transparent-black-weakest;
+}

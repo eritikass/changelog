@@ -17,10 +17,20 @@ class Server {
 
   // application config
   public config(): void {
-
+    this.cors = cors({
+      origin: [
+        'http://localhost:8000',
+        'http://localhost:8080',
+        'http://localhost:4200',
+      ],
+      methods: ['GET', 'PUT', 'POST', 'OPTIONS'],
+      // allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
+      credentials: true,
+      preflightContinue: false,
+    });
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(bodyParser.json());
-    this.app.use(cors());
+    this.app.use(this.cors);
 
     this.app.use(express.static(__dirname + '/'));
   }
@@ -30,7 +40,7 @@ class Server {
     const router: express.Router = express.Router();
 
     // this.app.use('/api/v1/statistics', tokenValidiator, Routes.StatisticsRouter);
-    this.app.use('/api/github', GithubRouter);
+    this.app.use('/api/github', this.cors, GithubRouter);
     this.app.get('**', (req, res) => {
       res.sendFile(path.join(__dirname, '/index.html'));
     });
