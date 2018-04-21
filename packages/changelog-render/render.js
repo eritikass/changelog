@@ -1,9 +1,3 @@
-// const html_source = `<ul>{{#pull_reqs}}
-//     <li>{{title}} (<a href="{{url}}">#{{number}}</a>)</li>
-// {{/pull_reqs}}</ul>`;
-
-// sg.checkIsRepo((err, is_repo) => { console.log(err, is_repo); })
-
 const SimpleGit = require('simple-git/promise')
 const Handlebars = require('handlebars');
 const Octokit = require('@octokit/rest')();
@@ -15,7 +9,6 @@ Octokit.authenticate({
     password: process.env.GIT_PASS
 })
 
-
 async function get_tags_commits(repo_path) {
     const sg = SimpleGit(repo_path);
     const tags_resolve = await sg.tags();
@@ -23,21 +16,17 @@ async function get_tags_commits(repo_path) {
 
     const tags_commits = [];
     for (var i = tags.length; i >= 1; --i) { // From newest to oldest version
-        
         const from = i < tags.length ? tags[i] : 'HEAD';
         const to = tags[i - 1];
-        console.log('to', i - 1, tags[i - 1]);
         const options = {'from': from, 'to': to}; // TODO: `from` inclusive, `to` exclusive?
-        
         const log = await sg.log(options);
         const commits = log.all; // From newest to oldest commit
-        
         tags_commits.push({'tag': from, 'commits': commits});
     }
     return tags_commits;
 }
 
-async function get_closed_reqs(repo_owner, repo_name, max_req_num) { // Default max is 90.
+async function get_closed_reqs(repo_owner, repo_name, max_req_num) {
     console.log("Getting pull requests:", repo_owner, repo_name, max_req_num);
 
     // {owner, repo, state, head: 'user:branch', base: 'branch', sort, direction, page, per_page}
@@ -45,7 +34,7 @@ async function get_closed_reqs(repo_owner, repo_name, max_req_num) { // Default 
     
     // Get older pull requests by looping through pages (one octokit call per page).
     var next_page = 1;
-    var remaining_num = max_req_num || 90;
+    var remaining_num = max_req_num;
     const reqs = [];
     while (remaining_num > 0) {
 
@@ -64,13 +53,13 @@ async function get_closed_reqs(repo_owner, repo_name, max_req_num) { // Default 
     return reqs;
 }
 
+const MAX_REQ_NUM = 200; // TODO: Make parameter somewhere instead of constant.
+
 async function get_tags_reqs(repo_owner, repo_name, repo_path, tags_commits_promise) {
     if (!tags_commits_promise) tags_commits_promise = get_tags_commits(repo_path);
     const tags_commits = await tags_commits_promise;
 
-    const all_reqs = await get_closed_reqs(repo_owner, repo_name, 10);
-    // const all_reqs = require('./example-pull-requests.json');
-    // FS.writeFile('example-pull-requests.json', JSON.stringify(all_reqs));
+    const all_reqs = await get_closed_reqs(repo_owner, repo_name, MAX_REQ_NUM);
     
     const req_idx_from_hash = {};
     for (var i = 0; i < all_reqs.length; ++i) {
@@ -97,7 +86,6 @@ async function get_tags_reqs(repo_owner, repo_name, repo_path, tags_commits_prom
         }
         tags_reqs.push({'tag': tags_commits[i].tag, 'reqs': tag_reqs});
     }
-    console.log(tags_reqs);
     return tags_reqs;
 }
 
@@ -106,7 +94,7 @@ function get_template() {
 {{#for_each_tag}}
     {{tag}}
     {{#reqs}}
-        * {{title}} [#{{number}}]({{url}})
+        * {{title}} [#{{number}}]({{html_url}})
     {{/reqs}}
 {{/for_each_tag}}`;
 
@@ -121,7 +109,7 @@ function use_template(template, tags_reqs) {
 }
 
 async function maybe_clone_repo(repo_owner, repo_name) { // Caches repos.
-    const repo_path = './tmp_repos/' + repo_name;
+    const repo_path = './tmp_repos/' + repo_name; // TODO: Include `repo_owner` in path.
     if (FS.existsSync(repo_path)) {
         console.log("Repo cached at", repo_path);
         return repo_path; // Repo was already cloned earlier.
