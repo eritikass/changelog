@@ -3,6 +3,7 @@ yarn.lock
 package-lock.json
 node_modules
 Procfile
+.env
 
 .idea
 *.pem
