@@ -16,9 +16,26 @@ spec:
         run: keep-a-changelog
     spec:
       containers:
-      - image: gcr.io/google-samples/hello-app:1.0
+      - image: eritikass/changelog:latest
+        imagePullPolicy: Always
         name: keep-a-changelog
         ports:
         - containerPort: 8080
         resources: {}
+        env:
+          - name: PRIVATE_KEY
+            valueFrom:
+              configMapKeyRef:
+                name: bot-private-key
+                key: changelogbot-private-key.pem
+          - name: APP_ID
+            valueFrom:
+              configMapKeyRef:
+                name: keep-a-changelog-config
+                key: APP_ID
+          - name: WEBHOOK_SECRET
+            valueFrom:
+              configMapKeyRef:
+                name: keep-a-changelog-config
+                key: WEBHOOK_SECRET
 status: {}
