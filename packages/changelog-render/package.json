@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
+    "@octokit/rest": "^15.2.6",
     "handlebars": "^4.0.11",
     "simple-git": "^1.92.0"
   }
