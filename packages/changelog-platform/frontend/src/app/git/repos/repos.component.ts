@@ -16,13 +16,16 @@ export class ReposComponent implements OnInit {
   displayedColumns = ['repo_linked', 'repo_name'];
   dataSource: MatTableDataSource<Element>;
   data: any;
+  loading = false;
   constructor(private _github: GithubService) { }
 
   ngOnInit() {
+    this.loading = true;
     this._github.getRepos().subscribe(res => {
       console.log(res);
       this.data = res;
       this.initTable(this.data)
+      this.loading = false;
     })
   }
 
@@ -41,7 +44,6 @@ export class ReposComponent implements OnInit {
     })
     return result;
   }
-
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
