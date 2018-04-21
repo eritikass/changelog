@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-kubectl apply -f packages/changelog-gcp/deployment.yaml
-kubectl apply -f packages/changelog-gcp/service.yaml
+kubectl apply -f kubernetes/deployment.yaml
+kubectl apply -f kubernetes/service.yaml
 #kubectl apply -f packages/changelog-gcp/certificate.yaml
-kubectl apply -f packages/changelog-gcp/ingress.yaml
+kubectl apply -f kubernetes/ingress.yaml
 
 
 
