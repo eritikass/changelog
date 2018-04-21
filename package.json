@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "",
+    "build": "npm run build.frontend && npm run build.server",
+    "build.frontend": "cd ./changelog-frontend && ng build",
+    "build.server": "cd ./changelog-server && tsc"
   },
   "repository": {
     "type": "git",
