@@ -20,16 +20,49 @@ query getPullRequestInfo($owner: String!, $repository: String!, $pullRequest: In
 }
 `
 
-module.exports = robot => {
-    robot.on('pull_request', async context => {
-        //console.log(context.payload);
+const addComment = `
+mutation addComment($id: ID!, $body: String!) {
+  addComment(input: {subjectId: $id, body: $body, clientMutationId: "AutoChanges"}) {
+    clientMutationId
+    subject {
+      id
+    }
+  }
+}
+`
 
-        const resource  = await context.github.query(getPullRequestInfo, {
+const addReaction = `
+mutation addReaction($id: ID!) {
+  addReaction(input: {subjectId: $id, content:HOORAY, clientMutationId: "AutoChanges"}) {
+    clientMutationId
+  }
+}
+`
+
+module.exports = robot => {
+    robot.on('pull_request.opened', async context => {
+        const pullRequestInfo = await context.github.query(getPullRequestInfo, {
             "owner": context.payload.repository.owner.login,
             "repository": context.payload.repository.name,
             "pullRequest": context.payload.pull_request.number
         })
 
-        console.log(resource);
+        console.log('PullRequestInfo: ');
+        console.log(pullRequestInfo)
+
+        const commentInfo = await context.github.query(addComment, {
+            id: pullRequestInfo.repository.pullRequest.id,
+            body: 'AutoChanages bot checked you pull request, preparing Changelog updates!'
+        })
+
+        console.log('CommentInfo: ');
+        console.log(commentInfo);
+
+        const reactionInfo = await context.github.query(addReaction, {
+            id: commentInfo.addComment.subject.id
+        })
+
+        console.log('ReactionInfo: ')
+        console.log(reactionInfo);
     })
 }
