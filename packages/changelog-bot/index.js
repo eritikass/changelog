@@ -22,7 +22,7 @@ query getPullRequestInfo($owner: String!, $repository: String!, $pullRequest: In
 
 module.exports = robot => {
     robot.on('pull_request', async context => {
-        console.log(context.payload);
+        //console.log(context.payload);
 
         const resource  = await context.github.query(getPullRequestInfo, {
             "owner": context.payload.repository.owner.login,
