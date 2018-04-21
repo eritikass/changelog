@@ -39,7 +39,6 @@ class Server {
   public routes(): void {
     const router: express.Router = express.Router();
 
-    // this.app.use('/api/v1/statistics', tokenValidiator, Routes.StatisticsRouter);
     this.app.use('/api/github', this.cors, GithubRouter);
     this.app.get('**', (req, res) => {
       res.sendFile(path.join(__dirname, '/index.html'));
