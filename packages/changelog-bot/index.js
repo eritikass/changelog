@@ -5,6 +5,16 @@ query getPullRequestInfo($owner: String!, $repository: String!, $pullRequest: In
       id
       number
       title
+      headRefName
+      commits(last: 1) {
+        edges {
+          node {
+          	commit {
+              message
+            }
+          }
+        }
+      }
     }
   }
 }
