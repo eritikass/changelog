@@ -2,6 +2,8 @@ const SimpleGit = require('simple-git/promise')
 const Handlebars = require('handlebars');
 const Octokit = require('@octokit/rest')();
 const FS = require('fs');
+const Util = require('util');
+const writeFileAsync = Util.promisify(FS.writeFile);
 
 Octokit.authenticate({
     type: 'basic',
@@ -89,7 +91,7 @@ function start_repo(owner, name) {
     const repo = {owner: owner, name: name, sg: SimpleGit('.')};
 
     // TODO: What if `repo.owner + '___' + repo.name` are equal for two repos? (name conflict)
-    repo.path = './tmp_repos/' + repo.owner + '___' + repo.name;
+    repo.path = './tmp_repos/' + repo.owner + '___' + repo.name + '/';
 
     // TODO: Non-GitHub URLs
     repo.url = 'https://github.com/' + repo.owner + '/' + repo.name + '.git';
@@ -137,12 +139,12 @@ async function get_changelog(repo) {
 
 async function push_changelog(repo) {
     const md = await get_changelog(repo);
-    // FS write `md` to file 'CHANGELOG.md'
-    // TODO: git branch changelog && git checkout changelog
     repo.sg.cwd(repo.path);
+    await writeFileAsync(repo.path + 'CHANGELOG.md', md);
+    // TODO: git branch AutoChange (if branch doesn't exist); git checkout AutoChange
     await repo.sg.add('CHANGELOG.md');
     await repo.sg.commit('Update changelog');
-    await repo.sg.push();
+    await repo.sg.push('origin', 'master');
     // TODO (after commiting to branch other than master): generate merge request
 }
 
