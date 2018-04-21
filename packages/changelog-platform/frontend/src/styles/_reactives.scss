@@ -1,0 +1,21 @@
+@import './variables';
+
+.react-font {
+  color: $font-primary;
+}
+.react-font:hover {
+  color: $font-light;
+}
+.react-font:active {
+  color: $font-dark;
+}
+
+.react-font-green {
+  color: $green-primary;
+}
+.react-font-green:hover {
+  color: $green-light;
+}
+.react-font-green:active {
+  color: $green-dark;
+}

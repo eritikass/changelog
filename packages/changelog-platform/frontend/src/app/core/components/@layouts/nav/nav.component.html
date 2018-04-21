@@ -1,0 +1,33 @@
+<mat-toolbar>
+
+  <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-around">
+
+    <div fxFlex='50' fxLayout="row" fxLayoutAlign="start center">
+      <!-- <nav fxFlex='nogrow' mat-tab-nav-bar>
+        <a mat-tab-link *ngFor="let link of navLinks" [routerLink]="link.path" routerLinkActive #rla="routerLinkActive" [active]="rla.isActive">
+          {{link.label}}
+        </a>
+      </nav> -->
+    </div>
+
+
+    <div fxFlex='30' fxLayout="row" fxLayoutAlign="end" style="padding: 0.5%;">
+
+      <!-- <button mat-button fxFlex='nogrow' [matMenuTriggerFor]="menu">
+        <div fxLayout="row" fxLayoutAlign="center center">
+          <mat-icon>account_box</mat-icon>
+          <div> {{ email }} </div>
+        </div>
+      </button> -->
+
+
+      <button mat-raised-button>Login</button>
+
+    </div>
+
+
+
+  </mat-toolbar-row>
+
+
+</mat-toolbar>

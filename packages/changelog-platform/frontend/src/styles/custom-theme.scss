@@ -1,0 +1,25 @@
+@import '~@angular/material/theming';
+@include mat-core();
+
+$light-primary: mat-palette($mat-light-green, A400);
+$light-accent: mat-palette($mat-yellow, 700);
+$light-warn: mat-palette($mat-red);
+$light-theme: mat-light-theme($light-primary, $light-accent, $light-warn);
+
+$dark-primary: mat-palette($mat-light-green, A700);
+$dark-accent: mat-palette($mat-yellow, A400);
+$dark-warn: mat-palette($mat-red);
+$dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
+
+// $foreground: map-get($dark-theme, foreground);
+
+// $background: map-get($dark-theme, background);
+//   big-input {
+//     input {
+//       // retrieve particular color from variable, rg: text, base, divider, ...
+//       color: mat-color($foreground, text);
+//       background-color: mat-color($background, card); // or use "default" subvariable by default, oh the puns :)
+//       // border: 1px solid mat-color($accent);
+//     }
+//   }
+
