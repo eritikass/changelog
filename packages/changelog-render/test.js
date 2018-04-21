@@ -1,7 +1,4 @@
-const Render = require('./render.js');
+const Render = require('./render');
 
-var repos = [['facebook', 'jest'], ['eventum', 'eventum']]
-var repo_owner, repo_name;
-[repo_owner, repo_name] = repos[1];
-const md_promise = Render.get_repo_changelog(repo_owner, repo_name);
-md_promise.then((md) => { console.log("Changelog markdown:"); console.log(md); });
+const repo = Render.start('eventum', 'eventum');
+Render.changelog(repo).then((c) => console.log(c));
