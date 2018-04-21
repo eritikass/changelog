@@ -27,10 +27,16 @@ mutation addComment($id: ID!, $body: String!) {
     subject {
       id
     }
+    commentEdge {
+      node {
+        id
+      }
+    }
   }
 }
 `
 
+// doesnt work, permissions issue?
 const addReaction = `
 mutation addReaction($id: ID!) {
   addReaction(input: {subjectId: $id, content:HOORAY, clientMutationId: "AutoChanges"}) {
@@ -52,14 +58,16 @@ module.exports = robot => {
 
         const commentInfo = await context.github.query(addComment, {
             id: pullRequestInfo.repository.pullRequest.id,
-            body: 'AutoChanages bot checked you pull request, preparing Changelog updates!'
+            body: 'AutoChanages bot checked you pull request, preparing Changelog updates!\n\n' +
+            '[https://github.com/OmIkRoNiXz/changelog-test/pull/1](url)'
         })
 
         console.log('CommentInfo: ');
         console.log(commentInfo);
+        console.log(commentInfo.addComment.commentEdge);
 
         const reactionInfo = await context.github.query(addReaction, {
-            id: commentInfo.addComment.subject.id
+            id: commentInfo.addComment.commentEdge.node.id
         })
 
         console.log('ReactionInfo: ')
