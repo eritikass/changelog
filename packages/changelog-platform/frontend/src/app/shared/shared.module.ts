@@ -16,10 +16,6 @@ import { ExternalModule } from '@shared/modules/external.module';
 // pipes
 import { PipesModule } from '@shared/pipes/pipe.module';
 
-
-
-
-
 const MODULES = [
   CommonModule,
   RouterModule,
@@ -35,14 +31,14 @@ const MODULES = [
   exports: MODULES
 })
 export class SharedModule {
-  // static forRoot(): ModuleWithProviders {
-  //   return {
-  //     ngModule: SharedModule,
-  //     providers: [
-  //       { provide: HTTP_INTERCEPTORS, useClass: TimingInterceptor, multi: true },
-  //       { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
-  //       { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
-  //     ],
-  //   };
-  // }
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: SharedModule,
+      providers: [
+        // { provide: HTTP_INTERCEPTORS, useClass: TimingInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+      ],
+    };
+  }
 }

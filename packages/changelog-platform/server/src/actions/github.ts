@@ -4,25 +4,29 @@ import { CONFIG } from '../config/github';
 export const authenticate = async (callback, errorHandler) => {
     const options = {
         method: 'GET',
-        uri: `https://github.com/login/oauth/authorize?client_id=${CONFIG.client_id}&scope=user%20repo`,
+        // uri: `https://github.com/login/oauth/authorize?client_id=${CONFIG.client_id}&scope=user%20repo%20repo_deployment%20admin:repo_hook%20admin:org_hook`,
+        uri: `https://github.com/login/oauth/authorize?client_id=${CONFIG.client_id}&scope=admin`,
         json: true,
     };
     requestPromise(options, callback, errorHandler);
 };
 
-export const postToken = async (code, callback, errorHandler) => {
+export const postToken = async (payload, callback, errorHandler) => {
     const options = {
         method: 'POST',
-        uri: `https://github.com/login/oauth/access_token?client_id=${CONFIG.client_id}&client_secret=${CONFIG.client_secret}&code=${code}`,
+        uri: `https://github.com/login/oauth/access_token`,
+        body: payload,
         json: true,
     };
     requestPromise(options, callback, errorHandler);
 };
+
+
 
 export const getRepos = async (token, callback, errorHandler) => {
     const options = {
         method: 'GET',
-        uri: `https://api.github.com/user/repos?access_token=${token}`,
+        uri: `https://api.github.com/user/repos`,
         json: true,
         headers: {
             'User-Agent': 'changeLog',
@@ -32,6 +36,45 @@ export const getRepos = async (token, callback, errorHandler) => {
     requestPromise(options, callback, errorHandler);
 };
 
+export const getWebhook = async (owner, repo, token, callback, errorHandler) => {
+    const options = {
+        method: 'GET',
+        uri: `https://api.github.com/repos/${owner}/${repo}/hooks`,
+        json: true,
+        headers: {
+            'User-Agent': 'changeLog',
+            'Authorization': 'token ' + token
+        }
+    };
+    requestPromise(options, callback, errorHandler);
+};
+
+export const createWebhook = async (owner, repo, payload, token, callback, errorHandler) => {
+    const options = {
+        method: 'POST',
+        uri: `https://api.github.com/repos/${owner}/${repo}/hooks`,
+        body: payload,
+        json: true,
+        headers: {
+            'User-Agent': 'changeLog',
+            'Authorization': 'token ' + token
+        }
+    };
+    requestPromise(options, callback, errorHandler);
+};
+
+export const pingWebhook = async (owner, repo, id, token, callback, errorHandler) => {
+    const options = {
+        method: 'POST',
+        uri: `https://api.github.com/repos/${owner}/${repo}/hooks/${id}/ping`,
+        json: true,
+        headers: {
+            'User-Agent': 'changeLog',
+            'Authorization': 'token ' + token
+        }
+    };
+    requestPromise(options, callback, errorHandler);
+};
 
 
 // export const postMessages = async (namespaceId, payload, callback, errorHandler) => {

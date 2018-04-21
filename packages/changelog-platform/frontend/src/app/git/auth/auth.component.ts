@@ -9,7 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class AuthComponent implements OnInit {
   client_id = '623982830e4b37cdb4a7'
-  authApi = `https://github.com/login/oauth/authorize?client_id=${this.client_id}`
+  authApi = `https://github.com/login/oauth/authorize?client_id=${this.client_id}&scope=user%20repo%20repo_deployment%20admin:repo_hook%20admin:org_hook`
   code: any;
   loading = false;
   constructor(
@@ -17,7 +17,6 @@ export class AuthComponent implements OnInit {
     private _activeRoute: ActivatedRoute,
     private _github: GithubService
   ) {
-   
       if(localStorage.getItem('access_token')) {
       this._router.navigate(['repos'])
     }

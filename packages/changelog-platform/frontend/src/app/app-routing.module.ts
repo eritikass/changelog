@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
-
 import { AppConfig } from './config/app.config';
 import { AppComponent } from './app.component';
 
