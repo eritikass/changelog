@@ -1,6 +1,6 @@
 <div class='wrapper' fxLayout="column" fxLayoutAlign="center center">
 
-  <div id='container' [fxHide]="loading">
+  <div id='container' *ngIf="!loading">
     <div fxLayout="row" fxFlex='nogrow' fxLayoutAlign="end center">
       <mat-form-field>
         <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
@@ -8,23 +8,21 @@
     </div>
 
     <mat-table fxFlex='grow' #table [dataSource]="dataSource">
-
-      <ng-container matColumnDef="repo_linked">
+      <ng-container matColumnDef="linked">
         <mat-header-cell *matHeaderCellDef> Linked </mat-header-cell>
         <mat-cell *matCellDef="let element">
-          <mat-slide-toggle [checked]="element.repo_linked"></mat-slide-toggle>
+          <mat-slide-toggle [checked]="element.linked" (change)="onToggle($event, element.owner, element.name)"></mat-slide-toggle>
         </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="repo_name">
+      <ng-container matColumnDef="full_name">
         <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.repo_name}} </mat-cell>
+        <mat-cell *matCellDef="let element"> {{element.full_name}} </mat-cell>
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
-
   </div>
 
   <div class="overlay" fxLayout="column" [fxShow]="loading" fxLayoutAlign="center center">

@@ -7,17 +7,18 @@ import { throwIfAlreadyLoaded } from './module-import-guard';
 import { ComponentsModule } from '@core/components/components.module';
 
 import { GithubService } from '@core/services/github.service';
+import { AuthGuard } from '@core/guards/auth.guard';
 
 @NgModule({
   imports: [
-    SharedModule,
     ComponentsModule,
+    SharedModule.forRoot(),
     ToastrModule.forRoot(),
   ],
   exports: [ComponentsModule],
   providers: [
-
-    GithubService
+    GithubService,
+    AuthGuard
   ],
   declarations: []
 })

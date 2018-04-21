@@ -7,16 +7,13 @@ export class GithubService {
   constructor(private _http: HttpClient) { }
 
   authenticate() {
-    const api = 'http://localhost:8080/api/github/auth'
+    const api = 'http://localhost:8080/api/oauth/auth'
     return this._http
       .get<any>(api)
   }
 
   postToken(code) {
-    const api = 'http://localhost:8080/api/github/token'
-    // const client_id = '623982830e4b37cdb4a7'
-    // const client_secret = 'a1b8be569be2072e46ab884fbfee0c63a65d02bb'
-    // const api = `https://github.com/login/oauth/access_token?client_id=${client_id}&client_secret=${client_secret}&code=${code}`
+    const api = 'http://localhost:8080/api/oauth/token'
     return this._http
       .post<any>(api, { token: code })
   }
@@ -25,6 +22,16 @@ export class GithubService {
     const api = 'http://localhost:8080/api/github/repos'
     return this._http
       .get<any>(api)
+  }
+
+  createWebhook(owner, repo){
+    const api = 'http://localhost:8080/api/github/webhook'
+    const payload = {
+      owner: owner,
+      repo: repo
+    };
+    return this._http
+      .post<any>(api, payload)
   }
 
 }

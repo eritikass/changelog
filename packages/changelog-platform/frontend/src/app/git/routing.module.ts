@@ -4,6 +4,7 @@ import { GitComponent } from './git.component';
 
 import { AuthComponent } from './auth/auth.component';
 import { ReposComponent } from './repos/repos.component';
+import { AuthGuard } from '@core/guards/auth.guard';
 
 const routes: Routes = [
     {
@@ -12,7 +13,7 @@ const routes: Routes = [
         children: [
             { path: '', redirectTo: 'auth', pathMatch: 'full' },
             { path: 'auth', component: AuthComponent },
-            { path: 'repos', component: ReposComponent }
+            { path: 'repos', component: ReposComponent, canActivate: [AuthGuard] }
         ]
     }
 ];
