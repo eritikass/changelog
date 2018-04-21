@@ -12,19 +12,8 @@ const example_reqs = require('./example-pull-requests.json');
 
 async function get_tags_commits(repo_path) {
     const sg = SimpleGit(repo_path);
-    await sg.clone('https://github.com/facebook/jest.git');
-
     const tags_resolve = await sg.tags();
     const tags = tags_resolve.all;
-
-    // const full_log = await sg.log();
-    // const all_commits = full_log.all;
-    // for (var i = 0; i < all_commits.length; ++i) {
-    //     if (all_commits[i].hash == '556fc1df416322ac42bf6ef8e9e8c9e104580e6b') {
-    //         console.log("FOUND HASH");
-    //     }
-    // }
-    // console.log('asdfasdf');
 
     const tags_commits = [];
     for (var i = tags.length; i >= 1; --i) { // From newest to oldest version
@@ -42,11 +31,17 @@ async function get_tags_commits(repo_path) {
     return tags_commits;
 }
 
-async function get_tags_reqs(repo_path, tags_commits_promise) {
+function get_closed_reqs(repo_url) { // TODO: `async function` ?
+    var reqs; // TODO
+    // `reqs` sorted from oldest to newest.
+    return reqs;
+}
+
+async function get_tags_reqs(repo_url, repo_path, tags_commits_promise) {
     if (!tags_commits_promise) tags_commits_promise = get_tags_commits(repo_path);
     const tags_commits = await tags_commits_promise;
 
-    const all_reqs = example_reqs;  // TODO
+    const all_reqs = get_closed_reqs(repo_url);
     
     const req_idx_from_hash = {};
     for (var i = 0; i < all_reqs.length; ++i) {
@@ -106,7 +101,7 @@ async function maybe_clone_repo(repo_url) { // TODO: Repo caching?
 
 async function get_repo_changelog(repo_url) {
     const repo_path = await maybe_clone_repo(repo_url);
-    const tags_reqs_promise = get_tags_reqs(repo_path);
+    const tags_reqs_promise = get_tags_reqs(repo_url, repo_path);
     // tags_reqs_promise.then((r) => console.log(r));
     return use_template(get_template(), tags_reqs_promise);
 }
