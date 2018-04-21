@@ -58,14 +58,20 @@ export class ReposComponent implements OnInit {
 
 
   onToggle(event: MatSlideToggleChange, owner, repo) {
-    console.log(owner, repo);
-    
     if (event.checked) {
       this.createWebhook(owner, repo)
     }
   }
-  createWebhook(owner, repo) {
+  createWebhook(owner, repo, ping=false) {
     this._github.createWebhook(owner, repo).subscribe(res => {
+      const id = res.id;
+      if(ping){
+        this._github.pingWebhook(owner, repo, id).subscribe(r => console.log(r));
+      }
+    })
+  }
+  getWebhooks(owner, repo){
+    this._github.getWebhook(owner, repo).subscribe(res => {
       console.log(res);
     })
   }

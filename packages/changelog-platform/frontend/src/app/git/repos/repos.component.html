@@ -17,7 +17,7 @@
 
       <ng-container matColumnDef="full_name">
         <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.full_name}} </mat-cell>
+        <mat-cell *matCellDef="let element" (click)="getWebhooks()"> {{element.full_name}} </mat-cell>
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

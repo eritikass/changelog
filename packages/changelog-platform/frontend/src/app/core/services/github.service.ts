@@ -23,12 +23,30 @@ export class GithubService {
     return this._http
       .get<any>(api)
   }
-
-  createWebhook(owner, repo){
-    const api = 'http://localhost:8080/api/github/webhook'
+  getWebhook(owner, repo) {
+    const api = 'http://localhost:8080/api/github/get_webhook'
     const payload = {
       owner: owner,
       repo: repo
+    };
+    return this._http
+      .post<any>(api, payload)
+  }
+  createWebhook(owner, repo){
+    const api = 'http://localhost:8080/api/github/post_webhook'
+    const payload = {
+      owner: owner,
+      repo: repo
+    };
+    return this._http
+      .post<any>(api, payload)
+  }
+  pingWebhook(owner, repo, id) {
+    const api = 'http://localhost:8080/api/github/ping_webhook'
+    const payload = {
+      owner: owner,
+      repo: repo,
+      id: id
     };
     return this._http
       .post<any>(api, payload)
