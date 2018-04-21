@@ -17,7 +17,9 @@ class GithubRouter {
     public getRepos(req: Request, res: Response): void {
         const access_token = req.headers.authorization;
         Github.getRepos(access_token,
-            response => res.status(200).json(response),
+            response => {
+                res.status(200).json(response);
+            },
             err => res.status(err.statusCode).json(err.error)
         );
     }

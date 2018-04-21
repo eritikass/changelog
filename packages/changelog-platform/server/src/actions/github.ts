@@ -4,7 +4,8 @@ import { CONFIG } from '../config/github';
 export const authenticate = async (callback, errorHandler) => {
     const options = {
         method: 'GET',
-        uri: `https://github.com/login/oauth/authorize?client_id=${CONFIG.client_id}&scope=user%20repo%20repo_deployment%20admin:repo_hook`,
+        // uri: `https://github.com/login/oauth/authorize?client_id=${CONFIG.client_id}&scope=user%20repo%20repo_deployment%20admin:repo_hook%20admin:org_hook`,
+        uri: `https://github.com/login/oauth/authorize?client_id=${CONFIG.client_id}&scope=admin`,
         json: true,
     };
     requestPromise(options, callback, errorHandler);
