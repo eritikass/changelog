@@ -6,8 +6,8 @@
 
 const SimpleGit = require('simple-git/promise')
 const Handlebars = require('handlebars');
-
-const example_reqs = require('./example-pull-requests.json');
+const Octokit = require('@octokit/rest')();
+const FS = require ('fs');
 
 
 async function get_tags_commits(repo_path) {
@@ -31,17 +31,23 @@ async function get_tags_commits(repo_path) {
     return tags_commits;
 }
 
-function get_closed_reqs(repo_url) { // TODO: `async function` ?
-    var reqs; // TODO
-    // `reqs` sorted from oldest to newest.
+async function get_closed_reqs(repo_owner, repo_name) {
+    // {owner, repo, state, head: 'user:branch', base: 'branch', sort, direction, page, per_page}
+    const args = {owner: repo_owner, repo: repo_name, state: 'closed', page: 1, per_page: 99};
+    const download = await Octokit.pullRequests.getAll(args);
+    const reqs = download.data; // `reqs` sorted from oldest to newest.
     return reqs;
+    console.log('-------------------')
+    console.log(reqs);
+    console.log('-------------------')
 }
 
-async function get_tags_reqs(repo_url, repo_path, tags_commits_promise) {
+async function get_tags_reqs(repo_owner, repo_name, repo_path, tags_commits_promise) {
     if (!tags_commits_promise) tags_commits_promise = get_tags_commits(repo_path);
     const tags_commits = await tags_commits_promise;
 
-    const all_reqs = get_closed_reqs(repo_url);
+    const all_reqs = await get_closed_reqs(repo_owner, repo_name);
+    // const all_reqs = require('./example-pull-requests.json');
     
     const req_idx_from_hash = {};
     for (var i = 0; i < all_reqs.length; ++i) {
@@ -84,26 +90,30 @@ function get_template() {
     return template;
 }
 
-async function use_template(template, tags_reqs_promise) {
-    const tags_reqs = await tags_reqs_promise;
+function use_template(template, tags_reqs) {
     const data = {'for_each_tag': tags_reqs};
-    const md_promise = template(data);
-    return md_promise;
+    const markdown = template(data);
+    return markdown;
 }
 
-async function maybe_clone_repo(repo_url) { // TODO: Repo caching?
+async function maybe_clone_repo(repo_owner, repo_name) { // Caches repos.
+    const repo_path = './tmp_repos/' + repo_name;
+    if (FS.existsSync(repo_path)) {
+        console.log("Repo cached at", repo_path);
+        return repo_path; // Repo was already cloned earlier.
+    }
+
+    const repo_url = 'https://github.com/' + repo_owner + '/' + repo_name + '.git';
     console.log("Cloning", repo_url);
-    const repo_path = './tmp_repo';
     await SimpleGit('.').clone(repo_url, repo_path);
     console.log("Cloned into", repo_path);
     return repo_path;
 }
 
-async function get_repo_changelog(repo_url) {
-    const repo_path = await maybe_clone_repo(repo_url);
-    const tags_reqs_promise = get_tags_reqs(repo_url, repo_path);
-    // tags_reqs_promise.then((r) => console.log(r));
-    return use_template(get_template(), tags_reqs_promise);
+async function get_repo_changelog(repo_owner, repo_name) {
+    const repo_path = await maybe_clone_repo(repo_owner, repo_name);
+    const tags_reqs = await get_tags_reqs(repo_owner, repo_name, repo_path);
+    return use_template(get_template(), tags_reqs);
 }
 
 module.exports = get_repo_changelog;
