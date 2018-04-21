@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: keep-a-changelog
+  annotations:
+    # keep-a-changelog-static-ip > 35.190.49.234
+    kubernetes.io/ingress.global-static-ip-name: keep-a-changelog-static-ip
+    kubernetes.io/ingress.class: "gce"
+    kubernetes.io/tls-acme: "true"
+spec:
+  tls:
+  - secretName: www-autochanges-eu
+    hosts:
+    - www.autochanges.eu
+  rules:
+  - host: www.autochanges.eu
+    http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: keep-a-changelog
+          servicePort: 8080

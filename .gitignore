@@ -2,3 +2,9 @@
 yarn.lock
 package-lock.json
 node_modules
+Procfile
+.env
+_*.yaml
+
+.idea
+*.pem
