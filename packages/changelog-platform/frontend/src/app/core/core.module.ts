@@ -7,7 +7,9 @@ import { throwIfAlreadyLoaded } from './module-import-guard';
 import { ComponentsModule } from '@core/components/components.module';
 
 import { GithubService } from '@core/services/github.service';
+import { HubService } from '@core/services/hub.service';
 import { AuthGuard } from '@core/guards/auth.guard';
+
 
 @NgModule({
   imports: [
@@ -18,6 +20,7 @@ import { AuthGuard } from '@core/guards/auth.guard';
   exports: [ComponentsModule],
   providers: [
     GithubService,
+    HubService,
     AuthGuard
   ],
   declarations: []

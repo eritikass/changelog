@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { GithubService } from '@core/services/github.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HubService } from '@core/services/hub.service';
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-
-import { LINKS } from '@config/app.config';
 
 @Component({
   selector: 'app-nav',
@@ -11,20 +10,30 @@ import { LINKS } from '@config/app.config';
   styleUrls: ['./nav.component.scss']
 })
 export class NavComponent implements OnInit {
-  namespaces: string[];
-  currentNamespace: string;
-  namespaceSelector = false;
+  client_id = '623982830e4b37cdb4a7'
+  authApi = `https://github.com/login/oauth/authorize?client_id=${this.client_id}&scope=user%20repo%20repo_deployment%20admin:repo_hook%20admin:org_hook`
+  code: any;
 
-  navLinks = LINKS.activeLinks;
+  name: string;
+  avatar_url: string;
+  loading: boolean;
+  loggedIn: boolean;
   constructor(
-    
-  ) {
-  }
+    private _router: Router,
+    private _activeRoute: ActivatedRoute,
+    private _github: GithubService,
+    private _hub: HubService
+  ) {}
 
   ngOnInit() {
-  }
-
-  login(){
-    
+    this._hub.getIsLoading().subscribe(bool => this.loading = bool);
+    this._hub.getIsLoggedIn().subscribe(bool => this.loggedIn = bool);
+    this._hub.getUserData().subscribe((data: any[]) => {
+      if (data.length > 0) {
+        console.log(data[0]);
+        this.avatar_url = data[0].owner.avatar_url;
+        console.log(data);
+      }
+    });
   }
 }

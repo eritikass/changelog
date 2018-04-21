@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { HubService } from '@core/services/hub.service';
 
 
 @Injectable()
@@ -12,10 +13,12 @@ export class ErrorInterceptor implements HttpInterceptor {
     // This is needed to avoid multiple error message display
     messageTimeout: any;
     constructor(
-        private router: Router,
+        private _router: Router,
+        private _hub: HubService,
         private toastr: ToastrService
     ) {
-
+        console.log('a');
+        
     }
     showMessage(message): void {
         if (this.messageTimeout) {
@@ -32,7 +35,9 @@ export class ErrorInterceptor implements HttpInterceptor {
                 this.showMessage(err.error.message);
                 if(err.status === 401){
                     localStorage.removeItem('access_token')
-                    this.router.navigate(['/'])
+                    console.log(this._hub);
+                    this._hub.setIsLoggedIn(false)
+                    this._router.navigate(['/'])
                 }
                 return Observable.throw(err);
             });

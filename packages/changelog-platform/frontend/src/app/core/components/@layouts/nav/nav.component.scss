@@ -1,29 +1,17 @@
 @import '~styles/variables';
+@import "~styles/mixins";
 :host(app-nav) {
-  z-index: 100;
-  width: 100vw;
-  img {
-    width: auto;
-    height: 2.7rem;
-  }
-  .mat-tab-nav-bar,
-  /deep/ .mat-tab-links,
-  /deep/ .mat-tab-link {
-    height: 100% !important;
-  }
-  .mat-menu {
-    width: 100% !important;
-  }
+    z-index: 100;
+    width: 100vw;
+    span {
+        color: $font-light;
+    }
+    .spacer {
+        flex: 1 1 auto;
+    }
+    /deep/.mat-button-wrapper {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
 }
-
-.mat-tab-nav-bar.mat-primary .mat-tab-link:not(.mat-tab-disabled):focus {
-  // background-color: rgba($green-primary, .1);
-  color: $green-primary;
-  background-color: transparent;
-}
-
-// .mat-toolbar-row {
-//   .mat-button {
-//     padding: 1em;
-//   }
-// }

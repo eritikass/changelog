@@ -1,6 +1,7 @@
-<div fxLayout="column" fxLayoutAlign="start center" class="wrapper light-theme">
-
-  <router-outlet></router-outlet>
-
+<div fxLayout="column" fxLayoutAlign="start" class="wrapper light-theme">
+  <app-nav fxFlex='nogrow'></app-nav>
+  <div fxFlex='grow' fxLayoutAlign="start center">
+    <router-outlet></router-outlet>
+  </div>
 
 </div>

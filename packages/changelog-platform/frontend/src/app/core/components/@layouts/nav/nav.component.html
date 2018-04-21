@@ -1,33 +1,15 @@
-<mat-toolbar>
-
-  <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-around">
-
-    <div fxFlex='50' fxLayout="row" fxLayoutAlign="start center">
-      <!-- <nav fxFlex='nogrow' mat-tab-nav-bar>
-        <a mat-tab-link *ngFor="let link of navLinks" [routerLink]="link.path" routerLinkActive #rla="routerLinkActive" [active]="rla.isActive">
-          {{link.label}}
-        </a>
-      </nav> -->
-    </div>
-
-
-    <div fxFlex='30' fxLayout="row" fxLayoutAlign="end" style="padding: 0.5%;">
-
-      <!-- <button mat-button fxFlex='nogrow' [matMenuTriggerFor]="menu">
-        <div fxLayout="row" fxLayoutAlign="center center">
-          <mat-icon>account_box</mat-icon>
-          <div> {{ email }} </div>
-        </div>
-      </button> -->
-
-
-      <button mat-raised-button>Login</button>
-
-    </div>
-
-
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>ChangeLog</span>
+    <span class='spacer'></span>
+    <!-- <a [fxHide]="loggedIn" [href]="authApi" mat-raised-button fxLayout="row" fxLayoutAlign="space-around center" color="primary">
+      <img src="assets/images/github-circle-white-transparent.svg">
+      <div>&nbsp; &nbsp; Login with GitHub</div>
+    </a> -->
+    <!-- <div [fxShow]="avatar_url" fxLayout="row" fxLayoutAlign="space-around center">
+      <span>{{ name }}</span>
+      <img [src]="avatar_url">
+    </div> -->
 
   </mat-toolbar-row>
-
-
 </mat-toolbar>

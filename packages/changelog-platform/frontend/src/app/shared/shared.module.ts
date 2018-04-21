@@ -16,6 +16,9 @@ import { ExternalModule } from '@shared/modules/external.module';
 // pipes
 import { PipesModule } from '@shared/pipes/pipe.module';
 
+import { HubService } from '@core/services/hub.service';
+
+
 const MODULES = [
   CommonModule,
   RouterModule,
@@ -37,7 +40,7 @@ export class SharedModule {
       providers: [
         // { provide: HTTP_INTERCEPTORS, useClass: TimingInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true, deps: [HubService] }
       ],
     };
   }

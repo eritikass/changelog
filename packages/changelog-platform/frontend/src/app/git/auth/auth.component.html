@@ -1,4 +1,4 @@
-<div class='wrapper' fxLayout="column" fxLayoutAlign="start center">
+<div class='wrapper' fxLayout="column" fxLayoutAlign="space-around center">
 
   <div fxFlexOffset='3' fxLayout="column" fxLayoutAlign="center center">
     <h1>Automate ChangeLog Generation</h1>
@@ -8,10 +8,28 @@
       <p>too talent she object mrs wanted remove giving.</p>
     </div>
     <div fxFlexOffset='5'>
-      <a mat-raised-button [href]="authApi" color="primary" [fxHide]="loading">Login with GitHub</a>
+
+      <a mat-raised-button fxLayout="row" fxLayoutAlign="space-around center" [href]="authApi" color="primary" [fxHide]="loading">
+        <img src="assets/images/github-circle-white-transparent.svg">
+        <div>&nbsp; &nbsp; Login with GitHub</div>
+      </a>
+
       <div class="overlay" fxLayout="column" [fxShow]="loading" fxLayoutAlign="center center">
         <mat-spinner [diameter]="30"></mat-spinner>
       </div>
+
+    </div>
+  </div>
+
+  <div class='logoContainer'>
+
+    <div class=' logos ' fxLayout="row" fxLayoutAlign="space-around center">
+      <img src="assets/images/garage48_logo.png" alt="">
+      <img src="assets/images/startup_estonia.png" alt="">
+      <img src="assets/images/BE-Tallinn.png" alt="">
+      <img src="assets/images/Kredex-logo.png" alt="">
+      <img src="assets/images/eurofond_taustata.png" alt="">
+
     </div>
   </div>
 
