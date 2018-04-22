@@ -12,11 +12,11 @@ spec:
   - secretName: www-autochanges-eu
     hosts:
     - www.autochanges.eu
-  rules:
-  - host: www.autochanges.eu
-    http:
-      paths:
-      - path: /*
-        backend:
-          serviceName: keep-a-changelog
-          servicePort: 8080
+#  rules:
+#  - host: www.autochanges.eu
+#    http:
+#      paths:
+#      - path: /*
+  backend:
+    serviceName: keep-a-changelog
+    servicePort: 8080
