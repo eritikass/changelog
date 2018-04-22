@@ -23,17 +23,19 @@ export class AuthComponent implements OnInit {
     private _github: GithubService,
     private _hub: HubService
   ) {
-    if (localStorage.getItem('access_token')) {
-      this._router.navigate(['repos'])
-    }
     this.authApi = API.auth;
     this._hub.getIsLoading().subscribe(bool => this.loading = bool);
     this._hub.getIsLoggedIn().subscribe(bool => this.loggedIn = bool);
   }
 
   ngOnInit() {
+    if (localStorage.getItem('access_token')) {
+      this._router.navigate(['repos'])
+    }
     this._activeRoute.queryParams.subscribe(queryParams => {
       this.code = queryParams['code']
+      console.log(this.code);
+      
       if (this.code) {
         this._hub.setIsLoading(true);
         this._github.postToken(this.code).subscribe(res => {

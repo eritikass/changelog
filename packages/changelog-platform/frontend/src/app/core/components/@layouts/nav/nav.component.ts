@@ -18,7 +18,6 @@ export class NavComponent implements OnInit {
   loading: boolean;
   loggedIn: boolean;
   constructor(
-    private _router: Router,
     private _activeRoute: ActivatedRoute,
     private _github: GithubService,
     private _hub: HubService
