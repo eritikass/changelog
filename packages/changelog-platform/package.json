@@ -10,7 +10,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "clean": "del-cli ./dist/",
-    "build": "npm run clean && ng build && npm run build.server",
+    "build": "npm run clean && ng build --env=prod && npm run build.server",
     "build.server": "cd ./server && tsc",
     "watch": "ng build --env=dev -w",
     "commit": "git log --pretty=format:%h -1"

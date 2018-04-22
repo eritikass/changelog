@@ -1,15 +1,12 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <span>ChangeLog</span>
+    <span>AutoChanges</span>
     <span class='spacer'></span>
-    <!-- <a [fxHide]="loggedIn" [href]="authApi" mat-raised-button fxLayout="row" fxLayoutAlign="space-around center" color="primary">
-      <img src="assets/images/github-circle-white-transparent.svg">
-      <div>&nbsp; &nbsp; Login with GitHub</div>
-    </a> -->
-    <!-- <div [fxShow]="avatar_url" fxLayout="row" fxLayoutAlign="space-around center">
-      <span>{{ name }}</span>
-      <img [src]="avatar_url">
-    </div> -->
 
+    <div class='userInfo' [fxHide]="!user" fxLayout="row" fxLayoutAlign="space-around center">
+      <span>{{ user?.name }}</span>
+      <span> &nbsp; &nbsp; </span>
+      <img [src]="user?.avatar_url">
+    </div>
   </mat-toolbar-row>
 </mat-toolbar>

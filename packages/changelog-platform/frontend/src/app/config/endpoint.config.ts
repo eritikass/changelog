@@ -1,32 +1,33 @@
 const ENDPOINTS = {
-    session: '/api/v1/session',
-    user: '/api/v1/user',
-    vehicle: '/api/v1/v',
-    namespace: '/api/v1/namespace',
-    statistics: '/api/v1/statistics',
-    image: '/api/v1/image',
-    message: '/api/v1/message'
+    auth: '/api/oauth/auth',
+    token: '/api/oauth/token',
+    user: '/api/github/user',
+    repos: '/api/github/repos',
+    get_webhook: '/api/github/get_webhook',
+    post_webhook: '/api/github/post_webhook',
+    ping_webhook: '/api/github/ping_webhook'
 };
 
 export class Endpoint {
     private _api: string;
-    private readonly _session = ENDPOINTS.session;
+    private readonly _auth = ENDPOINTS.auth;
+    private readonly _token = ENDPOINTS.token;
     private readonly _user = ENDPOINTS.user;
-    private readonly _vehicle = ENDPOINTS.vehicle;
-    private readonly _namespace = ENDPOINTS.namespace;
-    private readonly _statistics = ENDPOINTS.statistics;
-    private readonly _image = ENDPOINTS.image;
-    private readonly _message = ENDPOINTS.message;
+    private readonly _repos = ENDPOINTS.repos;
+    private readonly _get_webhook = ENDPOINTS.get_webhook;
+    private readonly _post_webhook = ENDPOINTS.post_webhook;
+    private readonly _ping_webhook = ENDPOINTS.ping_webhook;
 
     constructor(api: string) {
         this._api = api;
     }
 
-    get session(): string { return this._api + this._session; }
+    get auth(): string { return this._api + this._auth; }
+    get token(): string { return this._api + this._token; }
     get user(): string { return this._api + this._user; }
-    get vehicle(): string { return this._api + this._vehicle; }
-    get namespace(): string { return this._api + this._namespace; }
-    get statistics(): string { return this._api + this._statistics; }
-    get image(): string { return this._api + this._image; }
-    get message(): string { return this._api + this._message; }
+    get repos(): string { return this._api + this._repos; }
+    get get_webhook(): string { return this._api + this._get_webhook; }
+    get post_webhook(): string { return this._api + this._post_webhook; }
+    get ping_webhook(): string { return this._api + this._ping_webhook; }
 }
+

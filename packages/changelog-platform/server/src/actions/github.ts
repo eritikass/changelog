@@ -21,7 +21,18 @@ export const postToken = async (payload, callback, errorHandler) => {
     requestPromise(options, callback, errorHandler);
 };
 
-
+export const getUser = async (token, callback, errorHandler) => {
+    const options = {
+        method: 'GET',
+        uri: `https://api.github.com/user`,
+        json: true,
+        headers: {
+            'User-Agent': 'changeLog',
+            'Authorization': 'token ' + token
+        }
+    };
+    requestPromise(options, callback, errorHandler);
+};
 
 export const getRepos = async (token, callback, errorHandler) => {
     const options = {

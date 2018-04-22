@@ -16,9 +16,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         private _router: Router,
         private _hub: HubService,
         private toastr: ToastrService
-    ) {
-        console.log('a');
-        
+    ) {       
     }
     showMessage(message): void {
         if (this.messageTimeout) {
@@ -36,7 +34,8 @@ export class ErrorInterceptor implements HttpInterceptor {
                 if(err.status === 401){
                     localStorage.removeItem('access_token')
                     console.log(this._hub);
-                    this._hub.setIsLoggedIn(false)
+                    // this._hub.setIsLoggedIn(false)
+                    Observable.throw(err);
                     this._router.navigate(['/'])
                 }
                 return Observable.throw(err);

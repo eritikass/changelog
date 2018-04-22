@@ -14,8 +14,7 @@ export class NavComponent implements OnInit {
   authApi = `https://github.com/login/oauth/authorize?client_id=${this.client_id}&scope=user%20repo%20repo_deployment%20admin:repo_hook%20admin:org_hook`
   code: any;
 
-  name: string;
-  avatar_url: string;
+  user: any;
   loading: boolean;
   loggedIn: boolean;
   constructor(
@@ -23,17 +22,23 @@ export class NavComponent implements OnInit {
     private _activeRoute: ActivatedRoute,
     private _github: GithubService,
     private _hub: HubService
-  ) {}
+  ) { }
 
   ngOnInit() {
+    if (localStorage.getItem('access_token')) {
+      this._github.getUser().subscribe(data => {
+        this.user = data;
+        console.log(this.user);
+      });
+    }
     this._hub.getIsLoading().subscribe(bool => this.loading = bool);
     this._hub.getIsLoggedIn().subscribe(bool => this.loggedIn = bool);
     this._hub.getUserData().subscribe((data: any[]) => {
-      if (data.length > 0) {
-        console.log(data[0]);
-        this.avatar_url = data[0].owner.avatar_url;
-        console.log(data);
-      }
+      // if (data.length > 0) {
+      //   console.log(data[0]);
+      //   this.avatar_url = data[0].owner.avatar_url;
+      //   console.log(data);
+      // }
     });
   }
 }
