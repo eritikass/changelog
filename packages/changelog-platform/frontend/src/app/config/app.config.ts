@@ -4,6 +4,8 @@ import { Links } from './links.config';
 import { Endpoint } from './endpoint.config';
 import { environment } from '@environments/environment';
 
+console.log('Prod:', environment.production);
+console.log('API:', environment.api);
 
 export const APP_CONFIG = new InjectionToken('app.config');
 export const LINKS = new Links(false);
