@@ -5,6 +5,7 @@ const ENDPOINTS = {
     token: '/api/oauth/token',
     user: '/api/github/user',
     repos: '/api/github/repos',
+    has_webhook: '/api/github/has_webhook',
     get_webhook: '/api/github/get_webhook',
     post_webhook: '/api/github/post_webhook',
     ping_webhook: '/api/github/ping_webhook'
@@ -19,6 +20,7 @@ export class Endpoint {
     private readonly _get_webhook = ENDPOINTS.get_webhook;
     private readonly _post_webhook = ENDPOINTS.post_webhook;
     private readonly _ping_webhook = ENDPOINTS.ping_webhook;
+    private readonly _has_webhook = ENDPOINTS.has_webhook;
 
     constructor(api: string) {
         this._api = api;
@@ -31,5 +33,6 @@ export class Endpoint {
     get get_webhook(): string { return this._api + this._get_webhook; }
     get post_webhook(): string { return this._api + this._post_webhook; }
     get ping_webhook(): string { return this._api + this._ping_webhook; }
+    get has_webhook(): string { return this._api + this._has_webhook; }
 }
 
