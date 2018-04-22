@@ -24,7 +24,7 @@ export class Endpoint {
         this._api = api;
     }
 
-    get auth(): string { return this._api + this._auth; }
+    get auth(): string { return this._auth; }
     get token(): string { return this._api + this._token; }
     get user(): string { return this._api + this._user; }
     get repos(): string { return this._api + this._repos; }
