@@ -1,0 +1,20 @@
+# https://github.com/ahmetb/gke-letsencrypt/
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: autochanges-eu-tls
+  namespace: default
+spec:
+  secretName: www-autochanges-eu
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: www.autochanges.eu
+  dnsNames:
+  - www.autochanges.eu
+  acme:
+    config:
+    - http01:
+        ingress: keep-a-changelog
+      domains:
+      - www.autochanges.eu

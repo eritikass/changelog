@@ -1,0 +1,24 @@
+{
+  "zen": "Half measures are as bad as nothing at all.",
+  "hook_id": 26966672,
+  "hook": {
+    "type": "App",
+    "id": 26966672,
+    "name": "web",
+    "active": true,
+    "events": [
+      "commit_comment",
+      "pull_request",
+      "pull_request_review",
+      "pull_request_review_comment"
+    ],
+    "config": {
+      "content_type": "json",
+      "insecure_ssl": "0",
+      "url": "http://ce0b4b01.ngrok.io"
+    },
+    "updated_at": "2018-04-20T20:42:05Z",
+    "created_at": "2018-04-20T20:42:05Z",
+    "app_id": 11320
+  }
+}

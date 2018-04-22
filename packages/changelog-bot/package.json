@@ -1,0 +1,28 @@
+{
+  "name": "changelogbot",
+  "version": "1.0.0",
+  "description": "Changelog Automatizator",
+  "engines": {
+    "node": "^8.9",
+    "npm": "^5.6"
+  },
+  "scripts": {
+    "start": "probot run ./index.js",
+    "test": "jest && standard"
+  },
+  "dependencies": {
+    "joi": "^13.1.2",
+    "probot": "^6.0.0",
+    "probot-scheduler": "^1.0.2",
+    "standard": "^11.0.0"
+  },
+  "devDependencies": {
+    "jest": "^22.2.2",
+    "smee-client": "^1.0.1"
+  },
+  "standard": {
+    "env": [
+      "jest"
+    ]
+  }
+}

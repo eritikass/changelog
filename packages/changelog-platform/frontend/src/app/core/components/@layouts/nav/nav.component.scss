@@ -1,0 +1,25 @@
+@import '~styles/variables';
+@import "~styles/mixins";
+:host(app-nav) {
+  z-index: 100;
+  width: 100vw;
+  span {
+    color: $font-light;
+  }
+  .spacer {
+    flex: 1 1 auto;
+  }
+  /deep/.mat-button-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  .userInfo {
+    height: 100%;
+    img {
+      height: 80%;
+      width: auto;
+      border-radius: 50%;
+    }
+  }
+}

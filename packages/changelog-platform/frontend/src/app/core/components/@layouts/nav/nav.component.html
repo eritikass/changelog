@@ -1,0 +1,12 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>AutoChanges</span>
+    <span class='spacer'></span>
+
+    <div class='userInfo' [fxHide]="!user" fxLayout="row" fxLayoutAlign="space-around center">
+      <span>{{ user?.name }}</span>
+      <span> &nbsp; &nbsp; </span>
+      <img [src]="user?.avatar_url">
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>

@@ -1,0 +1,13 @@
+@import '~@angular/material/theming';
+@import './variables';
+@import "functions";
+@mixin mat-ripple-theme($dark-theme) {
+    .mat-ripple-element {
+        background-color: rgba($green-primary, .1);
+    }
+}
+
+@mixin font-size($size) {
+    font-size: $size;
+    font-size: calculateRem($size);
+}
