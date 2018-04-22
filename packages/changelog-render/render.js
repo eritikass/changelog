@@ -102,7 +102,8 @@ function start_repo(owner, name, username, password) {
     repo.path = './tmp_repos/' + repo.owner + '___' + repo.name + (+new Date()) + '/';
 
     // TODO: Non-GitHub URLs
-    repo.url = 'https://github.com/' + repo.owner + '/' + repo.name + '.git';
+    // FIXME: use better git auth
+    repo.url = 'https://' + username + ':' + password + '@github.com/' + repo.owner + '/' + repo.name + '.git';
     return repo;
 }
 
