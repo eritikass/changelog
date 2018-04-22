@@ -52,7 +52,7 @@ class GithubRouter {
         const access_token = req.headers.authorization;
         const owner = req.body.owner;
         const repo = req.body.repo;
-        
+
         const payload = {
             name: 'web',
             active: true,
@@ -61,7 +61,7 @@ class GithubRouter {
                 'pull_request'
             ],
             config: {
-                url: 'http://localhost:8080/api/github/onwebhook',
+                url: CONFIG.oauth_url,
                 content_type: 'json'
             }
         };
