@@ -41,7 +41,7 @@ class GithubRouter {
     public getWebhooks(req: Request, res: Response): void {
         const access_token = req.headers.authorization;
         const owner = req.body.owner;
-        const repo = req.body.repo;
+        const repo = req.body.repo; 
 
         Github.getWebhook(owner, repo, access_token,
             response => res.status(200).json(response),
@@ -74,7 +74,7 @@ class GithubRouter {
         const access_token = req.headers.authorization;
         const owner = req.body.owner;
         const repo = req.body.repo;
-        const id = req.body.repo;
+        const id = req.body.id;
 
         Github.pingWebhook(owner, repo, id, access_token,
             response => res.status(200).json(response),
