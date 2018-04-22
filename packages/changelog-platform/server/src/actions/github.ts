@@ -48,6 +48,7 @@ export const getRepos = async (token, callback, errorHandler) => {
 };
 
 export const getWebhook = async (owner, repo, token, callback, errorHandler) => {
+
     const options = {
         method: 'GET',
         uri: `https://api.github.com/repos/${owner}/${repo}/hooks`,

@@ -11,7 +11,8 @@
       <ng-container matColumnDef="linked">
         <mat-header-cell *matHeaderCellDef> Linked </mat-header-cell>
         <mat-cell *matCellDef="let element">
-          <mat-slide-toggle [checked]="element.linked" (change)="onToggle($event, element.owner, element.name)"></mat-slide-toggle>
+          <mat-slide-toggle [checked]="setToggle(element.owner, element.name)" 
+          (change)="onToggle($event, element.owner, element.name)"></mat-slide-toggle>
         </mat-cell>
       </ng-container>
 

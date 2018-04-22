@@ -58,7 +58,19 @@ export class ReposComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
-
+  setToggle(owner, repo){
+    this._github.getWebhook(owner, repo).subscribe((res: any[]) => {
+      console.log(res);
+      const events: string[] = res[0]['events'];
+      console.log(events);
+      
+      if(events.length > 0){
+        console.log(events.length > 0);
+        
+        return true;
+      }
+    })
+  }
   onToggle(event: MatSlideToggleChange, owner, repo) {
     if (event.checked) {
       this.createWebhook(owner, repo)
