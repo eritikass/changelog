@@ -3,10 +3,14 @@
     <span>AutoChanges</span>
     <span class='spacer'></span>
 
-    <div class='userInfo' [fxHide]="!user" fxLayout="row" fxLayoutAlign="space-around center">
-      <span>{{ user?.name }}</span>
-      <span> &nbsp; &nbsp; </span>
+    <div class='userInfo' [fxShow]="user" [fxHide]="!user" fxLayout="row" fxLayoutAlign="space-around center">
+
+
+      <button mat-button [matMenuTriggerFor]="menu">{{ user.login }}</button>
       <img [src]="user?.avatar_url">
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="logout()">Log out</button>
+      </mat-menu>
     </div>
   </mat-toolbar-row>
 </mat-toolbar>

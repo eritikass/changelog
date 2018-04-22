@@ -43,6 +43,9 @@ class GithubRouter {
         const owner = req.body.owner;
         const repo = req.body.repo; 
 
+        console.log('repo');
+        
+
         Github.getWebhook(owner, repo, access_token,
             response => res.status(200).json(response),
             err => res.status(err.statusCode).json(err.error)
