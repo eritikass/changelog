@@ -4,6 +4,7 @@ const Octokit = require('@octokit/rest')();
 const FS = require('fs');
 const Util = require('util');
 const writeFileAsync = Util.promisify(FS.writeFile);
+const rimraf = require('rimraf');
 
 async function get_tags_commits(repo) {
     repo.sg.cwd(repo.path);
@@ -162,6 +163,11 @@ async function push_changelog(repo) {
     await repo.sg.commit('Update changelog');
     await repo.sg.push('origin', 'master');
     // TODO (after commiting to branch other than master): generate merge request
+
+    // TODO: improve cleanup
+    rimraf(repo.path, function () {
+        console.log('tmp repo removed: ', repo.path);
+    });
 }
 
 module.exports = {
