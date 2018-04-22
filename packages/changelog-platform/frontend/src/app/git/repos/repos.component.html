@@ -17,12 +17,15 @@
 
       <ng-container matColumnDef="full_name">
         <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-        <mat-cell *matCellDef="let element"> <a class='react-font githubLink' [href]="element.html_url">{{element.full_name}}</a>  </mat-cell>
+        <mat-cell *matCellDef="let element">
+          <a class='react-font githubLink' [href]="element.html_url">{{element.full_name}}</a>
+        </mat-cell>
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
+
   </div>
 
   <div class="overlay" fxLayout="column" [fxShow]="loading" fxLayoutAlign="center center">

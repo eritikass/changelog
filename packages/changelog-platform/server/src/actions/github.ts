@@ -37,7 +37,7 @@ export const getUser = async (token, callback, errorHandler) => {
 export const getRepos = async (token, callback, errorHandler) => {
     const options = {
         method: 'GET',
-        uri: `https://api.github.com/user/repos`,
+        uri: `https://api.github.com/user/repos?per_page=100`,
         json: true,
         headers: {
             'User-Agent': 'changeLog',

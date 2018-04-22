@@ -1,23 +1,18 @@
 <div class='wrapper' fxLayout="column" fxLayoutAlign="space-around center">
 
   <div fxFlexOffset='3' fxLayout="column" fxLayoutAlign="center center">
-    <h1>Automate ChangeLog Generation</h1>
     <div id='text' fxFlexOffset='3' fxLayout="column" fxLayoutAlign="start center">
-      <p>He went such dare good mr fact. The small own seven saved man age ﻿no offer.</p>
-      <p>Questions explained agreeable preferred strangers too him her son.</p>
-      <p>too talent she object mrs wanted remove giving.</p>
+      <h1>Smartly generate your Changelogs</h1>
+      <h2>Easily sync your GitHub projects with AutoChanges CI and you’ll be updating your changelogs automatically!</h2>
     </div>
-    <div fxFlexOffset='5'>
-
+    <div>
       <a mat-raised-button fxLayout="row" fxLayoutAlign="space-around center" [href]="authApi" color="primary" [fxHide]="loading">
         <img src="assets/images/github-circle-white-transparent.svg">
         <div>&nbsp; &nbsp; Login with GitHub</div>
       </a>
-
       <div class="overlay" fxLayout="column" [fxShow]="loading" fxLayoutAlign="center center">
         <mat-spinner [diameter]="30"></mat-spinner>
       </div>
-
     </div>
   </div>
 
