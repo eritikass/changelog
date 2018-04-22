@@ -8,16 +8,14 @@ export class TokenInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const access_token = localStorage.getItem('access_token');
-        if (access_token !== null) {
-            if (!(req.body instanceof File)) {
-                req = req.clone({
-                    setHeaders: {
-                        'Content-Type': 'application/json; charset=utf-8',
-                        'Accept': 'application/json',
-                        'Authorization': localStorage.getItem('access_token')
-                    },
-                });
-            }
+        if (access_token) {
+            req = req.clone({
+                setHeaders: {
+                    'Content-Type': 'application/json; charset=utf-8',
+                    'Accept': 'application/json',
+                    'Authorization': localStorage.getItem('access_token')
+                },
+            });
         }
         return next
             .handle(req);

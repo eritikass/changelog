@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  api: 'http://autochanges.eu'
+  api: 'http://localhost:8080'
 };
