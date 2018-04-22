@@ -1,4 +1,6 @@
-const Renderer = require('../changelog-render/render')
+const Render = require('./render')
+var sys = require('sys')
+var exec = require('child_process').exec;
 
 const getPullRequestInfo = `
 query getPullRequestInfo($owner: String!, $repository: String!, $pullRequest: Int!) {
@@ -47,6 +49,10 @@ mutation addReaction($id: ID!) {
 }
 `
 
+exec('git config --global user.email "omikronixz@gmail.com"')
+exec('git config --global user.name "Pavel Krolov"')
+exec('git config --global hub.protocol https')
+
 module.exports = robot => {
     robot.on('pull_request.opened', async context => {
         const pullRequestInfo = await context.github.query(getPullRequestInfo, {
@@ -60,68 +66,25 @@ module.exports = robot => {
 
         const commentInfo = await context.github.query(addComment, {
             id: pullRequestInfo.repository.pullRequest.id,
-            body: 'AutoChanages bot checked you pull request, preparing Changelog updates!\n\n' +
-            '[https://github.com/OmIkRoNiXz/changelog-test/pull/1](url)'
+            body: 'AutoChanages bot checked you pull request, preparing Changelog updates!\n\n'
         })
 
         console.log('CommentInfo: ');
         console.log(commentInfo);
         console.log(commentInfo.addComment.commentEdge);
+    })
 
-        // Permission issue?
-        //const reactionInfo = await context.github.query(addReaction, {
-        //    id: commentInfo.addComment.commentEdge.node.id
-        //})
-
-        //console.log('ReactionInfo: ')
-        //console.log(reactionInfo);
+    robot.on('pull_request.closed', async context => {
+        console.log(context)
 
         const username = process.env.GIT_USER;
         const password = process.env.GIT_PASS;
 
-        const repo_owner = 'litvand';          // Replace with the owner of your repo.
-        const repo_name  = 'changelog-test';   // Replace with the name of your repo.
+        const repo_owner = 'eritikass';        // Replace with the owner of your repo.
+        const repo_name  = 'alfa-beeta';             // Replace with the name of your repo
 
-        const repo = Renderer.start(repo_owner, repo_name, username, password);
-        Renderer.push_changelog(repo).then(() => console.log('Pushed changelog.'));
-
-        return;
-
-        const result = await octokit.repos.updateFile(
-            {
-                owner: pullRequestInfo.repository.owner.login,
-                repo: pullRequestInfo.repository.name,
-                path,
-                message,
-                content,
-                sha,
-                branch,
-                committer,
-                author
-            })
-
-        const createCommitInfo = await octokit.gitdata.createCommit(
-            {
-                owner: pullRequestInfo.repository.owner.login,
-                repo: pullRequestInfo.repository.name,
-                message,
-                tree,
-                parents,
-                author,
-                committer
-            })
-
-        console.log(createCommitInfo)
-
-        const createPullRequestInfo = context.github.pullRequests.create(
-            {
-                owner: pullRequestInfo.repository.owner.login,
-                repo: pullRequestInfo.repository.name,
-                head: 'resttest1',
-                base: pullRequestInfo.repository.default_branch,
-                title: 'Update CHANGELOG.md by AutoChanages'
-            })
-
-        console.log(createPullRequestInfo)
+        console.log(process.env);
+        const repo = Render.start(repo_owner, repo_name, username, password);
+        Render.push_changelog(repo).then(() => console.log('Pushed changelog.'));
     })
 }
