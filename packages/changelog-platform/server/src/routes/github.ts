@@ -13,6 +13,16 @@ class GithubRouter {
         this.routes();
         // this.octokit = new octokit();
     }
+    public getUser(req: Request, res: Response): void {
+        const access_token = req.headers.authorization;
+        Github.getUser(access_token,
+            response => {
+                res.status(200).json(response);
+            },
+            err => res.status(err.statusCode).json(err.error)
+        );
+    }
+
 
     public getRepos(req: Request, res: Response): void {
         const access_token = req.headers.authorization;
@@ -74,6 +84,7 @@ class GithubRouter {
 
     // set up our routes
     public routes() {
+        this.router.get('/user', this.getUser.bind(this));
         this.router.get('/repos', this.getRepos.bind(this));
 
         this.router.get('/onwebhook', this.onWebhook.bind(this));
