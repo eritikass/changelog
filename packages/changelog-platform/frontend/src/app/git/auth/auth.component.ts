@@ -3,6 +3,7 @@ import { GithubService } from '@core/services/github.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HubService } from '@core/services/hub.service';
 import { Observable } from 'rxjs/Observable';
+import { API } from '@config/app.config';
 
 @Component({
   selector: 'app-auth',
@@ -10,8 +11,8 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent implements OnInit {
-  client_id = '623982830e4b37cdb4a7'
-  authApi = `https://github.com/login/oauth/authorize?client_id=${this.client_id}&scope=user%20repo%20repo_deployment%20admin:repo_hook%20admin:org_hook`
+
+  authApi: string;
   code: any;
 
   loading: boolean;
@@ -25,6 +26,7 @@ export class AuthComponent implements OnInit {
     if (localStorage.getItem('access_token')) {
       this._router.navigate(['repos'])
     }
+    this.authApi = API.auth;
     this._hub.getIsLoading().subscribe(bool => this.loading = bool);
     this._hub.getIsLoggedIn().subscribe(bool => this.loggedIn = bool);
   }

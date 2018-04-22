@@ -1,5 +1,7 @@
+const client_id = '623982830e4b37cdb4a7'
+
 const ENDPOINTS = {
-    auth: '/api/oauth/auth',
+    auth: `https://github.com/login/oauth/authorize?client_id=${client_id}&scope=user%20repo%20repo_deployment%20admin:repo_hook%20admin:org_hook`,
     token: '/api/oauth/token',
     user: '/api/github/user',
     repos: '/api/github/repos',
@@ -22,7 +24,7 @@ export class Endpoint {
         this._api = api;
     }
 
-    get auth(): string { return this._api + this._auth; }
+    get auth(): string { return this._auth; }
     get token(): string { return this._api + this._token; }
     get user(): string { return this._api + this._user; }
     get repos(): string { return this._api + this._repos; }
