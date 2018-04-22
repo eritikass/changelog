@@ -7,6 +7,7 @@ export interface Element {
   full_name: string;
   name: string;
   owner: string;
+  html_url: string;
 }
 
 @Component({
@@ -43,7 +44,8 @@ export class ReposComponent implements OnInit {
         linked: false,
         full_name: el.full_name,
         name: el.name,
-        owner: el.owner.login
+        owner: el.owner.login,
+        html_url: el.html_url
       };
       result.push(entry);
     })
