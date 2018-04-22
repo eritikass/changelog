@@ -38,3 +38,4 @@ services:
     command: sh -c "npm run start"
     ports:
       - "8080:8080"
+      - "80:8080"
