@@ -32,6 +32,14 @@ export class GithubService {
     return this._http
       .post<any>(API.get_webhook, payload)
   }
+  hasWebhook(owner, repo) {
+    const payload = {
+      owner: owner,
+      repo: repo
+    };
+    return this._http
+      .post<any>(API.has_webhook, payload)
+  }
   createWebhook(owner, repo){
     const payload = {
       owner: owner,
