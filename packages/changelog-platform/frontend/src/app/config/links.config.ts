@@ -17,4 +17,5 @@ export class Links {
     get activeLinks(): any {
         return this._prod ? _.filter(this._links, ['prod', true]) : this._links;
     }
+    
 }
