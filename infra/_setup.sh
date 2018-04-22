@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 apt-get update
-
 apt-get install -y vim curl wget git
 
 curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
@@ -15,3 +14,9 @@ sudo rm -rf /etc/apache2
 sudo add-apt-repository ppa:nginx/stable
 sudo apt-get update
 sudo apt-get install -y nginx
+###
+sudo /etc/init.d/nginx start
+
+sudo add-apt-repository ppa:certbot/certbot
+sudo apt-get update
+sudo apt-get install python-certbot-nginx
