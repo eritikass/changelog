@@ -98,7 +98,7 @@ function start_repo(owner, name, username, password) {
     const repo = {owner: owner, name: name, sg: SimpleGit('.')};
 
     // TODO: What if `repo.owner + '___' + repo.name` are equal for two repos? (name conflict)
-    repo.path = './tmp_repos/' + repo.owner + '___' + repo.name + '/';
+    repo.path = './tmp_repos/' + repo.owner + '___' + repo.name + (+new Date()) + '/';
 
     // TODO: Non-GitHub URLs
     repo.url = 'https://github.com/' + repo.owner + '/' + repo.name + '.git';
@@ -106,10 +106,10 @@ function start_repo(owner, name, username, password) {
 }
 
 async function maybe_clone_repo(repo) { // Caches repos.
-    if (FS.existsSync(repo.path)) {
-        console.log("Repo cached at", repo.path);
-        return repo.path; // Repo was already cloned earlier.
-    }
+    // if (FS.existsSync(repo.path)) {
+    //     console.log("Repo cached at", repo.path);
+    //     return repo.path; // Repo was already cloned earlier.
+    // } // TODO: Breaks with remote change (need pull).
 
     console.log("Cloning", repo.url);
     repo.sg.cwd('.');
@@ -121,10 +121,10 @@ async function maybe_clone_repo(repo) { // Caches repos.
 function get_template() {
     const md_source = `
 {{#for_each_tag}}
-    {{tag}}
-    {{#reqs}}
-        * {{title}} [#{{number}}]({{html_url}})
-    {{/reqs}}
+\n{{tag}}
+{{#reqs}}
+* {{title}} [#{{number}}]({{html_url}})
+{{/reqs}}
 {{/for_each_tag}}`;
 
     const template = Handlebars.compile(md_source);
@@ -132,9 +132,18 @@ function get_template() {
 }
 
 function use_template(template, tags_reqs) {
+    const is_first_tag_head = (tags_reqs.length > 0 && tags_reqs[0].tag == 'HEAD');
+    if (is_first_tag_head) { // Temporarily change tag for generating markdown
+        tags_reqs[0].tag = 'Unreleased';
+    }
+
     const data = {'for_each_tag': tags_reqs};
     const markdown = template(data);
+    console.log('--------------------------------------------------------------------------');
     console.log(markdown);
+    console.log('--------------------------------------------------------------------------');
+
+    if (is_first_tag_head) tags_reqs[0].tag = 'HEAD'; // Restore tag name.
     return markdown;
 }
 

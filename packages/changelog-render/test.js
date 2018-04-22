@@ -9,8 +9,8 @@ const Render = require('./render');
 const username = process.env.GIT_USER;
 const password = process.env.GIT_PASS;
 
-const repo_owner = 'litvand';          // Replace with the owner of your repo.
-const repo_name  = 'changelog-test';   // Replace with the name of your repo.
+const repo_owner = 'eritikass';        // Replace with the owner of your repo.
+const repo_name  = 'tpt1';             // Replace with the name of your repo.
 
 const repo = Render.start(repo_owner, repo_name, username, password);
 Render.push_changelog(repo).then(() => console.log('Pushed changelog.'));
