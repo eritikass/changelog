@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  api: 'http://www.autochanges.eu'
+  api: 'http://autochanges.eu'
 };
