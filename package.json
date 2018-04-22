@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "",
+    "l1": "lerna bootstrap",
+    "l2": "lerna run build",
     "build": "npm run build.frontend && npm run build.server",
     "build.frontend": "cd ./changelog-frontend && ng build",
     "build.server": "cd ./changelog-server && tsc"

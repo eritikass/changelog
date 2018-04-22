@@ -1,0 +1,40 @@
+version: '2.1'
+
+services:
+
+#  render:
+#    image: node:9-alpine
+#    volumes:
+#      - ./:/app/
+#    working_dir: /app/packages/changelog-render
+#    command: sh -c "npm install"
+
+  backend:
+    image: node:9-alpine
+    volumes:
+      - ./:/app/
+      - ./changelogbot-private-key.pem:/changelogbot-private-key.pem
+    working_dir: /app/packages/changelog-bot
+    env_file:
+      - .env
+    environment:
+      - PRIVATE_KEY_PATH=/changelogbot-private-key.pem
+      - PORT=3000
+      - HOST="127.0.0.1"
+    command: sh -c "npm run start"
+    ports:
+      - "3000:3000"
+
+  frontend:
+    image: node:9-alpine
+    volumes:
+      - ./:/app/
+    working_dir: /app/packages/changelog-platform
+    env_file:
+      - .env
+    environment:
+      - PORT=8080
+      - HOST="127.0.0.1"
+    command: sh -c "npm run start"
+    ports:
+      - "8080:8080"

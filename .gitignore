@@ -9,3 +9,4 @@ packages/changelog-render/tmp_repos
 
 .idea
 *.pem
+/*.log
