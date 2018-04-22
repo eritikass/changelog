@@ -5,6 +5,7 @@ node_modules
 Procfile
 .env
 _*.yaml
+packages/changelog-render/tmp_repos
 
 .idea
 *.pem
