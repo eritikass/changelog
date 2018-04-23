@@ -1,3 +1,7 @@
+const Render = require('./render')
+var sys = require('sys')
+var exec = require('child_process').exec;
+
 const getPullRequestInfo = `
 query getPullRequestInfo($owner: String!, $repository: String!, $pullRequest: Int!) {
   repository(owner: $owner, name: $repository) {
@@ -45,6 +49,10 @@ mutation addReaction($id: ID!) {
 }
 `
 
+exec('git config --global user.email "omikronixz@gmail.com"')
+exec('git config --global user.name "Pavel Krolov"')
+exec('git config --global hub.protocol https')
+
 module.exports = robot => {
     robot.on('pull_request.opened', async context => {
         const pullRequestInfo = await context.github.query(getPullRequestInfo, {
@@ -58,19 +66,25 @@ module.exports = robot => {
 
         const commentInfo = await context.github.query(addComment, {
             id: pullRequestInfo.repository.pullRequest.id,
-            body: 'AutoChanages bot checked you pull request, preparing Changelog updates!\n\n' +
-            '[https://github.com/OmIkRoNiXz/changelog-test/pull/1](url)'
+            body: 'AutoChanages bot checked you pull request, preparing Changelog updates!\n\n'
         })
 
         console.log('CommentInfo: ');
         console.log(commentInfo);
         console.log(commentInfo.addComment.commentEdge);
+    })
 
-        const reactionInfo = await context.github.query(addReaction, {
-            id: commentInfo.addComment.commentEdge.node.id
-        })
+    robot.on('pull_request.closed', async context => {
+        console.log(context)
 
-        console.log('ReactionInfo: ')
-        console.log(reactionInfo);
+        const username = process.env.GIT_USER;
+        const password = process.env.GIT_PASS;
+
+        const repo_owner = 'eritikass';        // Replace with the owner of your repo.
+        const repo_name  = 'alfa-beeta';             // Replace with the name of your repo
+
+        console.log(process.env);
+        const repo = Render.start(repo_owner, repo_name, username, password);
+        Render.push_changelog(repo).then(() => console.log('Pushed changelog.'));
     })
 }
